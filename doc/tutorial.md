@@ -137,3 +137,43 @@ JOIN sql_inventory.products p
 ON oi.product_id = p.product_id
 ```
 
+### Self Joins
+
+```mysql
+USE sql_hr;
+
+SELECT e.first_name, e.employee_id, m.first_name as manager
+FROM employees e
+JOIN employees m 
+ON e.reports_to = m.employee_id
+```
+
+### Joining Multiple Tables
+
+```mysql
+USE sql_store;
+
+SELECT o.order_id,
+	   o.order_date,
+       c.first_name,
+       c.last_name,
+       os.name AS status
+FROM orders o
+JOIN customers c 
+ON o.customer_id = c.customer_id
+JOIN order_statuses os
+ON os.order_status_id = o.status
+```
+
+### Outer Joins
+
+```mysql
+SELECT c.customer_id,
+       c.first_name,
+       o.order_id
+FROM orders o
+RIGHT JOIN customers c 
+ON o.customer_id = c.customer_id
+ORDER BY c.customer_id
+```
+
