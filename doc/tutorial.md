@@ -46,7 +46,7 @@ WHERE NOT (birth_date > '1990-01-08'
 OR points > 1000)
 ```
 
-### ike
+### Like
 
 ```mysql
 SELECT * 
@@ -176,4 +176,77 @@ RIGHT JOIN customers c
 ON o.customer_id = c.customer_id
 ORDER BY c.customer_id
 ```
+
+### Self Outer Joins
+
+```mysql
+USE sql_hr;
+
+SELECT e.employee_id,
+       e.first_name,
+       m.first_name AS manager
+FROM employees e
+LEFT JOIN employees m
+ON e.reports_to = m.employee_id
+```
+
+### The USING Clause
+
+```mysql
+SELECT *
+FROM order_items oi
+JOIN order_item_notes oin 
+USING (order_id, product_id)
+```
+
+```mysql
+USE sql_invoicing;
+SELECT p.date,
+	   c.name AS name,
+	   p.amount,
+       pm.name AS payment_method
+FROM payments p
+JOIN clients c USING (client_id)
+JOIN payment_methods pm
+ON pm.payment_method_id = p.payment_id
+```
+
+### Natural Joins
+
+```mysql
+SELECT o.order_id,
+	   c.first_name
+FROM  customers c
+NATURAL JOIN orders o
+```
+
+### Cross Joins
+
+```mysql
+SELECT c.first_name,
+	   p.name AS product
+FROM customers c
+CROSS JOIN products p
+ORDER BY c.first_name
+```
+
+### UNION
+
+```mysql
+SELECT o.order_id,
+	   order_date,
+       'Active' AS status
+FROM orders o
+WHERE o.order_date >= '2019-01-01'
+UNION
+SELECT o.order_id,
+	   order_date,
+       'Archive' AS status
+FROM orders o
+WHERE o.order_date < '2019-01-01'
+```
+
+### Column Attributes
+
+![](../img/column_attributes.png)
 
